@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: studyuml
+      POSTGRES_PASSWORD: studyuml
+      POSTGRES_DB: studyuml
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U studyuml"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  # Unused in Phase 0. Present so Phase 1 (leagues, review notifications) has nothing new to install.
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+volumes:
+  pgdata:
+  redisdata:
